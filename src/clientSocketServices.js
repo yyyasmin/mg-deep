@@ -54,7 +54,9 @@ export const updateMatchedCards = (setMatchedCards) => {
 
 export const updateIsMatched = (setIsMatched, setLast2FlippedCards) => {
   socket.on("UPDATED_IS_MATCHED", (isMatched, last2FlippedCards, have_has_word_idx) => {
-    ////console.log("IN updateIsMatched -- ON-UPDATED_IS_MATCHED -- last2FlippedCards: ", last2FlippedCards)
+    console.log("IN updateIsMatched -- ON-UPDATED_IS_MATCHED -- last2FlippedCards: ", last2FlippedCards)
+    console.log("IN updateIsMatched -- ON-UPDATED_IS_MATCHED -- isMatched: ", isMatched)
+
     setIsMatched(isMatched);
     setLast2FlippedCards(last2FlippedCards);
   });

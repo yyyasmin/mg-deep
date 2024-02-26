@@ -119,7 +119,7 @@ function Game() {
 
   useEffect(() => {
     updateCr(setCr)
-	broadcastChangeCr(currentRoom);
+	  broadcastChangeCr(currentRoom);
     updateIsMatched(setIsMatched, setLast2FlippedCards)
     if (!isEmpty(currentRoom) && !isEmpty(userName)) {
       broadcastChangeCardSize(currentRoom);  // Update Cr is in broadcastChangeCardSize
@@ -160,15 +160,17 @@ function Game() {
 
   const togglePlayerTurn = () => {
     console.log("IN togglePlayerTurn")
-    const updatedCurrentPlayers = cr.currentPlayers.map((player) => ({
-      ...player,
-      isActive: !player.isActive,
-      flippCount: 0
-    }));
-    const updatedRoom = { ...cr, currentPlayers: updatedCurrentPlayers };
-    console.log("IN togglePlayerTurn -- updatedRoom: ", updatedRoom)
-
-    broadcastChangeCr(updatedRoom);
+    if ( !isEmpty(cr) && !isEmpty(cr.currentPlayers) && cr.currentPlayers.length > 1 ) {
+      const updatedCurrentPlayers = cr.currentPlayers.map((player) => ({
+        ...player,
+        isActive: !player.isActive,
+        flippCount: 0
+      }));
+      const updatedRoom = { ...cr, currentPlayers: updatedCurrentPlayers };
+      console.log("IN togglePlayerTurn -- updatedRoom: ", updatedRoom)
+  
+      broadcastChangeCr(updatedRoom);
+    }   
   };
 
 
@@ -266,10 +268,12 @@ function Game() {
 
     useEffect(() => {
       if (toggleFlag && !isMatched) {
+        console.log("IN useEffect[toggleFlag, isMatched] -- 1111 -- cr: ", cr)
         togglePlayerTurn();
+        console.log("IN useEffect[toggleFlag, isMatched] -- 2222 -- cr: ", cr)
         setToggleFlag(false);
       }
-    }, [toggleFlag, isMatched]);
+   }, [toggleFlag, isMatched]);
 
     
   const handleCardFlip = async(cardId) => {
